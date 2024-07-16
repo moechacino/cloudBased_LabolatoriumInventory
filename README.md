@@ -1,66 +1,61 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Project is on progress (Unfinished Yet)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Overview
 
-## About Laravel
+## Architecture System
+![architecture system](docs/images/arsitektur-pa.jpg)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Database Design
+![db design](docs/images/db_relation_pa.png)
+#### Dosen
+**Columns**: id, name, nidn, rfid_sn, created_at, updated_at.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Description**: This table stores information about lecturers. Each lecturer has a unique ID, name, NIDN, RFID serial number, and information about the creation and update time of the data.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Peminjaman_Dosen
+**Columns**: id, alat_lab_id, dosen_id, keperluan, tempat_pemakaian, tanggal_peminjaman, tanggal_pengembalian, disetujui, sudah_dikembalikan, created_at, updated_at.
 
-## Learning Laravel
+**Description**: This table records information about equipment loans by lecturers. It has a relation with the Alat_Lab table through alat_lab_id and with the Dosen table through dosen_id.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Peminjaman_Mahasiswa
+**Columns**: id, alat_lab_id, dosen_id, mahasiswa_id, phone, keperluan, tempat_pemakaian, tanggal_peminjaman, tanggal_pengembalian, disetujui, sudah_dikembalikan, created_at, updated_at.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Description**: This table records information about equipment loans by students. It has a relation with the Alat_Lab table through alat_lab_id, with the Dosen table through dosen_id, and with the Mahasiswa table through mahasiswa_id.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Alat_Lab
+**Columns**: id, rfid_sn, name, butuh_perizinan, created_at, updated_at.
 
-## Laravel Sponsors
+**Description**: This table stores information about laboratory equipment. It has relations with the Peminjaman_Dosen and Peminjaman_Mahasiswa tables through id.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### Alat_Terpinjam
+**Columns**: id, alat_lab_id, tanggal_terpinjam, tanggal_kembali, created_at, updated_at.
 
-### Premium Partners
+**Description**: This table records information about borrowed equipment. It has a relation with the Alat_Lab table through alat_lab_id.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### Mahasiswa
+**Columns**: id, name, nrp, rfid_sn, created_at, updated_at.
 
-## Contributing
+**Description**: This table stores information about students. Each student has a unique ID, name, NRP, RFID serial number, and information about the creation and update time of the data.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Admin
+**Columns**: id, name, phone, role, username, password, token, created_at, updated_at.
 
-## Code of Conduct
+**Description**: This table stores information about admins who manage the system.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Alert_Pencurian
+**Columns**: id, alat_lab_id, created_at, updated_at.
 
-## Security Vulnerabilities
+**Description**: This table records information about equipment theft incidents. It has a relation with the Alat_Lab table through alat_lab_id.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Foto
+**Columns**: id, alt, url, alert_id, created_at, updated_at.
 
-## License
+**Description**: This table stores photos related to theft alerts. It has a relation with the Alert_Pencurian table through alert_id.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## System WorkFlow
+### Lending
+![](docs/images/flowchart-lending.jpg)
+### Admin Approval
+![](docs/images/flowchart-approval.jpg)
+### Security Gate System
+![](docs/images/flowchart-security.jpg)

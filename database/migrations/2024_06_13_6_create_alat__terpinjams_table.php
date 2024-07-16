@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('alat__terpinjams', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger("alat_lab_id")->nullable(false)->unique();
+            $table->date("tanggal_terpinjam")->nullable(false);
+            $table->date("tanggal_kembali")->nullable(false);
+            $table->timestamps();
+
+            $table->foreign('alat_lab_id')->references('id')->on('alat__labs');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('alat__terpinjams');
+    }
+};
